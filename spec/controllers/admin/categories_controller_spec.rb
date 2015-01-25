@@ -11,8 +11,9 @@ describe Admin::CategoriesController do
     request.session = { :user => henri.id }
   end
 
-	it 'test new category' do
-		 assigns(:category).should_not be_nil
+	it 'test_new' do
+		 get :new
+		assert_template 'new'
 	end
 
   it "test_index" do
