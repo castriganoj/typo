@@ -49,6 +49,10 @@ def define_spec_public_cache_directory
   end
 end
 
+RSpec.configure do |config|
+  config.color_enabled = true
+end
+
 def path_for_file_in_spec_public_cache_directory(file)
   define_spec_public_cache_directory
   File.join(ActionController::Base.page_cache_directory, file)

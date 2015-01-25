@@ -117,7 +117,7 @@ end
 describe CategoriesController, "#show with a non-existent category" do
   before do
     blog = stub_model(Blog, :base_url => "http://myblog.net", :theme => "typographic",
-                      :use_canonical_url => true)
+                      :use_canobundnical_url => true)
     Blog.stub(:default) { blog }
     Trigger.stub(:fire) { }
   end

@@ -14,7 +14,7 @@ module NavigationHelpers
     case page_name
 
     when /^the home\s?page$/
-      '/'
+      '/admin'
     when /^the new article page$/
       '/admin/content/new'
 
