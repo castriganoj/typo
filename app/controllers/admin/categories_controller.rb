@@ -45,12 +45,18 @@ class Admin::CategoriesController < Admin::BaseController
   end
 
   def save_category
-	     @category = Category.create(params[:category])
+		if  Category.exists?(@category.id)
+			@category.update_attributes!(params[:category])
+		else
+			@category = Category.create(params[:category])
+		end
+
     if @category.save!
       flash[:notice] = _('Category was successfully saved.')
     else
       flash[:error] = _('Category could not be saved.')
     end
+
     redirect_to :action => 'new'
   end
 
