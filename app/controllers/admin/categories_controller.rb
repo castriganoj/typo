@@ -45,10 +45,10 @@ class Admin::CategoriesController < Admin::BaseController
   end
 
   def save_category
-		if  Category.exists?(@category.id)
-			@category.update_attributes!(params[:category])
-		else
+		if  @category.nil?
 			@category = Category.create(params[:category])
+		else
+			@category.update_attributes!(params[:category])
 		end
 
     if @category.save!
