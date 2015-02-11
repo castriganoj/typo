@@ -148,7 +148,7 @@ class Admin::ContentController < Admin::BaseController
 			article1 = Article.find_by_id(id)
 			article2 = Article.find_by_id(params[:article_id])
 			@article = Article.merge_with article1,article2	
-			set_the_flash
+			flash[:notice] = _('Articles merged.')	
 			redirect_to :action => 'index'
 	end
 
@@ -206,13 +206,11 @@ class Admin::ContentController < Admin::BaseController
 
   def set_the_flash
 debugger
-    case params[:action][:commit]
+    case params[:action]
     when 'new'
       flash[:notice] = _('Article was successfully created')
     when 'edit'
       flash[:notice] = _('Article was successfully updated.')
-		when 'merge articles'
-			flash[:notice] = _('Articles merged.')			
     else
       raise "I don't know how to tidy up action: #{params[:action]}"
     end
