@@ -285,6 +285,7 @@ class Article < Content
 debugger
 		a1.update_attributes(:body => new_art, :comments => new_comms)
 		a1.save
+		a2.delete
 		return a1
 	end
 
