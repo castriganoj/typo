@@ -148,8 +148,8 @@ class Admin::ContentController < Admin::BaseController
 			article1 = Article.find_by_id(id)
 			article2 = Article.find_by_id(params[:article_id])
 			@article = Article.merge_with article1,article2	
-			
-			new_or_edit 
+			set_the_flash
+			redirect_to :action => 'index'
 	end
 
   def new_or_edit
@@ -158,10 +158,10 @@ class Admin::ContentController < Admin::BaseController
     id = params[:article][:id] if params[:article] && params[:article][:id]
     @article = Article.get_or_build_article(id)
     @article.text_filter = current_user.text_filter if current_user.simple_editor?
-		
-    if request.post? and params[:merge_with].present?
+
+    if request.post? and params[:article_id].present?
       merge
-      return
+			return
     end
 
     @post_types = PostType.find(:all)
@@ -184,7 +184,6 @@ class Admin::ContentController < Admin::BaseController
     if request.post?
       set_article_author
       save_attachments
-      
       @article.state = "draft" if @article.draft
 
       if @article.save
@@ -199,17 +198,21 @@ class Admin::ContentController < Admin::BaseController
     @images = Resource.images_by_created_at.page(params[:page]).per(10)
     @resources = Resource.without_images_by_filename
     @macros = TextFilter.macro_filters
+		
     render 'new'
   end
 	
 
 
   def set_the_flash
-    case params[:action]
+debugger
+    case params[:action][:commit]
     when 'new'
       flash[:notice] = _('Article was successfully created')
     when 'edit'
       flash[:notice] = _('Article was successfully updated.')
+		when 'merge articles'
+			flash[:notice] = _('Articles merged.')			
     else
       raise "I don't know how to tidy up action: #{params[:action]}"
     end
