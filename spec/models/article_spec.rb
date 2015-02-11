@@ -20,6 +20,24 @@ describe Article do
       assert @articles.include?(i.is_a?(Symbol) ? contents(i) : i)
     end
   end
+#############
+
+=begin
+USE FOR BASIS OF CREATING NEW ARTICLE FROM 2 CREATED ARTCILES. 
+  it "test_create" do
+    a = Article.new
+    a.user_id = 1
+    a.body = "Foo"
+    a.title = "Zzz"
+    assert a.save
+
+    a.categories << Category.find(Factory(:category).id)
+    assert_equal 1, a.categories.size
+
+    b = Article.find(a.id)
+    assert_equal 1, b.categories.size
+  end
+=end
 
   it "test_content_fields" do
     a = Article.new
@@ -96,6 +114,7 @@ describe Article do
     b = Article.find(a.id)
     assert_equal 1, b.categories.size
   end
+
 
   it "test_permalink_with_title" do
     article = Factory(:article, :permalink => 'article-3', :published_at => Time.utc(2004, 6, 1))
@@ -620,7 +639,18 @@ describe Article do
         end
       end
     end
-
+##
+		describe 'test merge action' do
+			it 'should call merge method' do
+					m_article = Factory.create(:article)
+					#Article.should_receive(:find).with('3')
+					Article.merge_with(m_article)
+			end
+		#	it 'it should create new article with title,author, both body and comments from articles' do 
+		#	end
+			#it 'should delete merged articles' do
+		#	end
+		end
     context "when id params given" do
       it "should return article" do
         already_exist_article = Factory.create(:article)

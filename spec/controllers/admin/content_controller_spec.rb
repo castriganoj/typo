@@ -2,6 +2,9 @@
 
 describe Admin::ContentController do
   render_views
+	
+#################
+
 
   # Like it's a shared, need call everywhere
   shared_examples_for 'index action' do
@@ -480,6 +483,20 @@ describe Admin::ContentController do
     it_should_behave_like 'new action'
     it_should_behave_like 'destroy action'
     it_should_behave_like 'autosave action'
+
+ describe 'merge action' do
+      it 'should merge articles' do
+				Article.should_receive(:find_by_id).with('5')
+				Article.should_receive(:merge_with).with(1).and_return(@article)
+       	debugger
+				assigns(:article).should_not be_nil
+        assigns(:article).should be_valid
+        response.should contain(/body/)
+        response.should contain(/extended content/)
+				response.should render_template('new')
+				get :edit, 'id' => @article.id, 'article_id' => '5'	
+      end
+	end
 
     describe 'edit action' do
 

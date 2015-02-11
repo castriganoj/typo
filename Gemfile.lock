@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     RedCloth (4.2.9)
+    ZenTest (4.11.0)
     abstract (1.0.0)
     actionmailer (3.0.17)
       actionpack (= 3.0.17)
@@ -33,6 +34,8 @@ GEM
     acts_as_tree_rails3 (0.1.0)
     addressable (2.3.2)
     arel (2.0.10)
+    autotest-rails (4.2.1)
+      ZenTest (~> 4.5)
     bluecloth (2.2.0)
     builder (2.1.2)
     capybara (1.1.2)
@@ -175,6 +178,7 @@ DEPENDENCIES
   acts_as_list
   acts_as_tree_rails3
   addressable (~> 2.1)
+  autotest-rails
   bluecloth (~> 2.1)
   capybara
   coderay (~> 0.9)

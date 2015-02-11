@@ -6,10 +6,11 @@ class Admin::ContentController < Admin::BaseController
 
   cache_sweeper :blog_sweeper
 
-  def auto_complete_for_article_keywords
+  def auto_complnewete_for_article_keywords
     @items = Tag.find_with_char params[:article][:keywords].strip
     render :inline => "<%= raw auto_complete_result @items, 'name' %>"
   end
+
 
   def index
     @search = params[:search] ? params[:search] : {}
@@ -24,6 +25,7 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def new
+
     new_or_edit
   end
 
@@ -36,6 +38,8 @@ class Admin::ContentController < Admin::BaseController
     end
     new_or_edit
   end
+
+
 
   def destroy
     @record = Article.find(params[:id])
@@ -130,7 +134,7 @@ class Admin::ContentController < Admin::BaseController
   def do_add_or_remove_fu
     attrib, action = params[:action].split('_')
     @article = Article.find(params[:id])
-    self.send("#{attrib}=", self.class.const_get(attrib.classify).find(params["#{attrib}_id"]))
+    self.send("s#{attrib}=", self.class.const_get(attrib.classify).find(params["#{attrib}_id"]))
     send("setup_#{attrib.pluralize}")
     @article.send(attrib.pluralize).send(real_action_for(action), send(attrib))
     @article.save
@@ -139,11 +143,26 @@ class Admin::ContentController < Admin::BaseController
 
   def real_action_for(action); { 'add' => :<<, 'remove' => :delete}[action]; end
 
+	def merge
+			id = params[:id]
+			article1 = Article.find_by_id(id)
+			article2 = Article.find_by_id(params[:article_id])
+			@article = Article.merge_with article1,article2	
+			
+			new_or_edit 
+	end
+
   def new_or_edit
+		
     id = params[:id]
     id = params[:article][:id] if params[:article] && params[:article][:id]
     @article = Article.get_or_build_article(id)
     @article.text_filter = current_user.text_filter if current_user.simple_editor?
+		
+    if request.post? and params[:merge_with].present?
+      merge
+      return
+    end
 
     @post_types = PostType.find(:all)
     if request.post?
@@ -182,6 +201,8 @@ class Admin::ContentController < Admin::BaseController
     @macros = TextFilter.macro_filters
     render 'new'
   end
+	
+
 
   def set_the_flash
     case params[:action]

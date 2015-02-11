@@ -30,6 +30,7 @@ class Article < Content
       find :all, :conditions => {:state => ["presumed_ham", "ham"]}
     end
 
+
     # Get only spam or presumed_spam comments
     def spam
       find :all, :conditions => {:state => ["presumed_spam", "spam"]}
@@ -277,6 +278,12 @@ class Article < Content
   def self.find_by_published_at
     super(:published_at)
   end
+
+	def self.merge_with(a1,a2)
+		new_art = a1.body + a2.body
+		a1.update_attribute(:body, new_art)
+		return a1
+	end
 
   def self.get_or_build_article id = nil
     return Article.find(id) if id
