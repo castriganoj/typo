@@ -146,7 +146,7 @@ class Admin::ContentController < Admin::BaseController
 	def merge
 			id = params[:id]
 			article1 = Article.find_by_id(id)
-			article2 = Article.find_by_id(params[:article_id])
+			article2 = Article.find_by_id(params[:merge_with])
 			@article = Article.merge_with article1,article2	
 			flash[:notice] = _('Articles merged.')	
 			redirect_to :action => 'index'
@@ -159,7 +159,7 @@ class Admin::ContentController < Admin::BaseController
     @article = Article.get_or_build_article(id)
     @article.text_filter = current_user.text_filter if current_user.simple_editor?
 
-    if request.post? and params[:article_id].present?
+    if request.post? and params[:merge_with].present?
       merge
 			return
     end

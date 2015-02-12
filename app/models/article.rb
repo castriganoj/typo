@@ -282,7 +282,7 @@ class Article < Content
 	def self.merge_with(a1,a2)
 		new_art = a1.body + a2.body
 		new_comms = a1.comments + a2.comments
-debugger
+
 		a1.update_attributes(:body => new_art, :comments => new_comms)
 		a1.save
 		a2.delete
