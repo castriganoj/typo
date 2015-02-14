@@ -285,7 +285,9 @@ class Article < Content
 
 		a1.update_attributes(:body => new_art, :comments => new_comms)
 		a1.save
-		a2.delete
+		
+		merged_art = Article.find(a2)
+		merged_art.destroy
 		return a1
 	end
 
