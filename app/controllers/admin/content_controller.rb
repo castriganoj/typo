@@ -205,7 +205,6 @@ class Admin::ContentController < Admin::BaseController
 
 
   def set_the_flash
-debugger
     case params[:action]
     when 'new'
       flash[:notice] = _('Article was successfully created')
