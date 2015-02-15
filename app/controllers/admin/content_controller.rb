@@ -149,7 +149,7 @@ class Admin::ContentController < Admin::BaseController
 			article2 = Article.find_by_id(params[:merge_with])
 			@article = Article.merge_with article1,article2	
 			flash[:notice] = _('Articles merged.')	
-			redirect_to :action => 'index'
+		 	redirect_to :action => 'edit', :id => @article.id
 	end
 
   def new_or_edit

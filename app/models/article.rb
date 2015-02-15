@@ -282,10 +282,14 @@ class Article < Content
 	def self.merge_with(a1,a2)
 		new_art = a1.body + a2.body
 		new_comms = a1.comments + a2.comments
+		new_ext =  a1.extended + a2.extended
+		new_excerpt =   a1.excerpt + a2.excerpt
 
-		a1.update_attributes(:body => new_art, :comments => new_comms)
+		a1.update_attributes(:body => new_art, :comments => new_comms, :extended =>new_ext, :excerpt => new_excerpt )
 		a1.save
-		a2.delete
+		
+		merged_art = Article.find(a2)
+		merged_art.destroy
 		return a1
 	end
 
