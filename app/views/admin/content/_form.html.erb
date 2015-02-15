@@ -148,7 +148,7 @@
     </ul>
   </div>  
   <div>
-    <%= render :partial => 'merge_articles' if @article.id and current_user.admin? %>
+    <%= render 'admin/content/merge_articles' if @article.id and current_user.admin? %>
   </div>   
 	 
   </div>
